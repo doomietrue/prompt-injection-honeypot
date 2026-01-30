@@ -15,4 +15,6 @@ Thumbs.db
 
 # Local testing
 v1/
-madpine/
+
+# Don't commit catches data
+madpine/catches.json
