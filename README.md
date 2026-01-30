@@ -68,7 +68,7 @@ cd injection-honeypot
 # Update URLs in payloads to point to your domain
 ```
 
-**Note:** Payloads are not included in this repo to keep them effective. Write your own based on the documented techniques above, or reach out for collaboration.
+**Note:** Payloads are not included in this repo to avoid accidental triggers by AI tools reading the source. Write your own based on the documented techniques above, or reach out for collaboration.
 
 ## Project Structure
 
