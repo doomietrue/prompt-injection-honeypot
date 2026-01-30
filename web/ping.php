@@ -11,24 +11,26 @@ $bt = $_GET['bt'] ?? 'unknown';
 $plt = $_GET['plt'] ?? 'unknown';
 $cnt = $_GET['cnt'] ?? 'unknown';
 $ct = $_GET['ct'] ?? 'unknown';
-$pl = $_GET['pl'] ?? 'unknown';
+$pl = $_GET['pl'] ?? null;
 
-// Log the catch
-$logFile = __DIR__ . '/catches.json';
-$catches = file_exists($logFile) ? json_decode(file_get_contents($logFile), true) : [];
+// Only log if payload ID is present (prevents direct visits from polluting data)
+if ($pl) {
+    $logFile = __DIR__ . '/catches.json';
+    $catches = file_exists($logFile) ? json_decode(file_get_contents($logFile), true) : [];
 
-$catches[] = [
-    'bot' => substr($bt, 0, 100),
-    'platform' => substr($plt, 0, 100),
-    'country' => substr($cnt, 0, 50),
-    'city' => substr($ct, 0, 50),
-    'payload' => substr($pl, 0, 10),
-    'timestamp' => date('c'),
-    'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-    'user_agent' => substr($_SERVER['HTTP_USER_AGENT'] ?? 'unknown', 0, 200)
-];
+    $catches[] = [
+        'bot' => substr($bt, 0, 100),
+        'platform' => substr($plt, 0, 100),
+        'country' => substr($cnt, 0, 50),
+        'city' => substr($ct, 0, 50),
+        'payload' => substr($pl, 0, 10),
+        'timestamp' => date('c'),
+        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+        'user_agent' => substr($_SERVER['HTTP_USER_AGENT'] ?? 'unknown', 0, 200)
+    ];
 
-file_put_contents($logFile, json_encode($catches, JSON_PRETTY_PRINT));
+    file_put_contents($logFile, json_encode($catches, JSON_PRETTY_PRINT));
+}
 
 // Return educational response
 echo <<<'RESPONSE'
