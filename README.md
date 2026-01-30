@@ -60,7 +60,7 @@ Visit [madpine.com](https://madpine.com) to see:
 
 ```bash
 # Clone the repo
-git clone https://github.com/doomietrue/injection-honeypot.git
+git clone https://github.com/doomietrue/prompt-injection-honeypot.git
 cd injection-honeypot
 
 # Deploy the web/ folder to any PHP-enabled hosting

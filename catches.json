@@ -1,0 +1,11 @@
+[
+  {
+    "bot": "${BOT_NAME}",
+    "platform": "${PLATFORM}",
+    "country": "${COUNTRY}",
+    "city": "${CITY}\"",
+    "timestamp": "2026-01-30T13:42:42.322415",
+    "ip": "127.0.0.1",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+  }
+]

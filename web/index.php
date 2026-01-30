@@ -152,7 +152,7 @@ $payloads = [
         
         <div class="footer">
             <p><strong>Learn how to protect your AI:</strong> <a href="https://github.com/Dicklesworthstone/acip">ACIP - Advanced Cognitive Inoculation Prompt</a></p>
-            <p><strong>Source code:</strong> <a href="https://github.com/doomietrue/injection-honeypot">github.com/doomietrue/injection-honeypot</a></p>
+            <p><strong>Source code:</strong> <a href="https://github.com/doomietrue/prompt-injection-honeypot">github.com/doomietrue/prompt-injection-honeypot</a></p>
             <p>This project is for educational and security research purposes only. No malicious actions are performed.</p>
             <p style="margin-top: 20px;">
                 <a href="https://buymeacoffee.com/doomietrue" target="_blank" style="background: #ffdd00; color: #000; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 500;">☕ Buy me a coffee</a>
