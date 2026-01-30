@@ -64,8 +64,11 @@ git clone https://github.com/doomietrue/prompt-injection-honeypot.git
 cd injection-honeypot
 
 # Deploy the web/ folder to any PHP-enabled hosting
-# Update URLs in payloads/ to point to your domain
+# Create your own payloads/ folder with injection texts
+# Update URLs in payloads to point to your domain
 ```
+
+**Note:** Payloads are not included in this repo to keep them effective. Write your own based on the documented techniques above, or reach out for collaboration.
 
 ## Project Structure
 
@@ -76,10 +79,7 @@ injection-honeypot/
 │   ├── ping.php         # Catch endpoint
 │   ├── catches.json     # Log file
 │   └── assets/          # Static assets
-├── payloads/            # Prompt injection payloads
-│   ├── 01_obvious.txt
-│   ├── 02_base64_link.txt
-│   └── ...
+├── payloads/            # Your own injection payloads (not included)
 └── README.md
 ```
 

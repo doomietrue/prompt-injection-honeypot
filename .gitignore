@@ -2,6 +2,9 @@
 web/catches.json
 !web/catches.json.example
 
+# Payloads (keep private for honeypot effectiveness)
+payloads/
+
 # OS files
 .DS_Store
 Thumbs.db
