@@ -2,7 +2,38 @@
 $catches = file_exists(__DIR__ . '/catches.json') 
     ? json_decode(file_get_contents(__DIR__ . '/catches.json'), true) 
     : [];
-$count = count($catches);
+$totalCount = count($catches);
+
+// Separate known and unknown locations
+$knownCatches = [];
+$unknownCount = 0;
+foreach ($catches as $c) {
+    $city = $c['city'] ?? '';
+    if ($city && strtolower($city) !== 'unknown' && $city !== '') {
+        $knownCatches[] = $c;
+    } else {
+        $unknownCount++;
+    }
+}
+
+// Last 50 known for table
+$recentKnown = array_slice($knownCatches, -50);
+
+// Last 500 for map (only known locations)
+$mapCatches = array_slice($knownCatches, -500);
+
+// Format timestamp for readability
+function formatTime($timestamp) {
+    $ts = strtotime($timestamp);
+    $now = time();
+    $diff = $now - $ts;
+    
+    if ($diff < 60) return 'Just now';
+    if ($diff < 3600) return floor($diff / 60) . 'm ago';
+    if ($diff < 86400) return floor($diff / 3600) . 'h ago';
+    if ($diff < 604800) return floor($diff / 86400) . 'd ago';
+    return date('M j, Y', $ts);
+}
 
 $payloads = [
     '01' => ['name' => 'Direct Instruction', 'difficulty' => 'Easy', 'desc' => 'Obvious SYSTEM INSTRUCTION asking the bot to run a curl command. Most bots with basic security should catch this.'],
@@ -50,6 +81,8 @@ $payloads = [
         .location { color: #888; }
         .payload-tag { background: rgba(99, 102, 241, 0.2); color: #818cf8; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
         .empty { text-align: center; padding: 60px; color: #666; }
+        .unknown-row { background: rgba(255,255,255,0.02); }
+        .unknown-count { color: #666; font-style: italic; }
         
         .payloads { margin-bottom: 30px; }
         .payload-item { background: rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
@@ -87,8 +120,8 @@ $payloads = [
         
         <div class="stats">
             <div class="stat">
-                <div class="stat-num"><?= $count ?></div>
-                <div class="stat-label">bots caught</div>
+                <div class="stat-num"><?= $totalCount ?></div>
+                <div class="stat-label">total bots caught</div>
             </div>
             <div class="stat">
                 <div class="stat-num"><?= count($payloads) ?></div>
@@ -120,10 +153,11 @@ $payloads = [
         </div>
         
         <h2>🗺️ Catch Map</h2>
+        <p class="subtitle">Showing last 500 catches with known locations</p>
         <div id="map"></div>
         
         <h2>📋 Recent Catches</h2>
-        <?php if ($count > 0): ?>
+        <?php if ($totalCount > 0): ?>
         <table>
             <thead>
                 <tr>
@@ -135,13 +169,20 @@ $payloads = [
                 </tr>
             </thead>
             <tbody>
-                <?php foreach (array_reverse(array_slice($catches, -50)) as $c): ?>
+                <?php if ($unknownCount > 0): ?>
+                <tr class="unknown-row">
+                    <td colspan="3" class="unknown-count">Unknown location (<?= $unknownCount ?>)</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+                <?php endif; ?>
+                <?php foreach (array_reverse($recentKnown) as $c): ?>
                 <tr>
                     <td class="bot-name"><?= htmlspecialchars($c['bot']) ?></td>
                     <td class="platform"><?= htmlspecialchars($c['platform']) ?></td>
                     <td class="location"><?= htmlspecialchars(($c['city'] ?? '') . ', ' . ($c['country'] ?? '')) ?></td>
-                    <td><span class="payload-tag"><?= htmlspecialchars($c['payload'] ?? 'unknown') ?></span></td>
-                    <td><?= htmlspecialchars($c['timestamp']) ?></td>
+                    <td><span class="payload-tag"><?= htmlspecialchars($c['payload'] ?? '—') ?></span></td>
+                    <td><?= formatTime($c['timestamp']) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -167,7 +208,8 @@ $payloads = [
             attribution: '© OpenStreetMap, © CARTO'
         }).addTo(map);
         
-        const catches = <?= json_encode($catches) ?>;
+        // Only last 500 with known locations for map
+        const catches = <?= json_encode($mapCatches) ?>;
         const geocodeCache = {};
         const markers = L.layerGroup().addTo(map);
         
