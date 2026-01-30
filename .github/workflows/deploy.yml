@@ -1,0 +1,30 @@
+name: Deploy to Namecheap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'madpine/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 198.54.126.167
+          port: 21098
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "madpine/*"
+          target: "~/madpine.com"
+          strip_components: 1
+
+      - name: Notify success
+        run: echo "✅ Deployed to madpine.com"
