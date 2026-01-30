@@ -1,0 +1,15 @@
+# Don't commit actual catches
+web/catches.json
+!web/catches.json.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Local testing
+v1/
+madpine/
