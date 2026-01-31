@@ -150,6 +150,10 @@ $payloads = [
                 </div>
                 <?php endforeach; ?>
             </div>
+            
+            <div class="mt-6 p-4 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
+                <p class="text-base"><strong class="text-indigo-400">🛡️ Protect your AI:</strong> <a href="https://github.com/Dicklesworthstone/acip" class="text-indigo-300 hover:text-indigo-200 underline transition-colors">ACIP - Advanced Cognitive Inoculation Prompt</a> — a framework for making LLMs resistant to prompt injection attacks.</p>
+            </div>
         </section>
         
         <!-- Map -->
